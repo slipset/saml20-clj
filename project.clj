@@ -12,8 +12,9 @@
    "check-namespace-decls"     ["with-profile" "+check-namespace-decls" "check-namespace-decls"]
    "eastwood"                  ["with-profile" "+eastwood" "eastwood"]
    "check-reflection-warnings" ["with-profile" "+reflection-warnings" "check"]
+   "cloverage"                 ["with-profile" "+cloverage" "cloverage"]
    ;; `lein lint` will run all linters
-   "lint"                      ["do" ["eastwood"] ["bikeshed"] ["check-namespace-decls"]]}
+   "lint"                      ["do" ["eastwood"] ["bikeshed"] ["check-namespace-decls"] ["cloverage"]]}
 
   :dependencies
   [[org.clojure/data.xml "0.0.8"]
@@ -63,7 +64,13 @@
    :check-namespace-decls
    {:plugins               [[lein-check-namespace-decls "1.0.2"]]
     :source-paths          ["test"]
-    :check-namespace-decls {:prefix-rewriting true}}}
+    :check-namespace-decls {:prefix-rewriting true}}
+
+   :cloverage
+   ;; Using Cam's fork of Cloverage until 1.2.1 of the main repo is out. Once that's released we can switch back.
+   {:dependencies [[camsaul/cloverage "1.2.1.1"]]
+    :plugins      [[camsaul/lein-cloverage  "1.2.1.1"]]
+    :cloverage    {:fail-threshold 16}}}
 
   :deploy-repositories
   [["clojars"

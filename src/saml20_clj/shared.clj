@@ -123,14 +123,14 @@
   (SecretKeySpec. (random-bytes) "HmacSHA1"))
 
 (defn hmac-str
-  ^String [^SecretKeySpec key-spec, ^String string]
+  ^String [^SecretKeySpec key-spec ^String string]
   (let [mac (doto (Mac/getInstance "HmacSHA1")
               (.init key-spec))
         hs (.doFinal mac (.getBytes string "UTF-8"))]
     (bytes->hex hs)))
 
 (defn uri-query-str
-  [clean-hash]
+  ^String [clean-hash]
   (codec/form-encode clean-hash))
 
 (defn form-encode-b64
@@ -173,7 +173,6 @@
   ^String [keystore-filename, ^String keystore-password, ^String cert-alias]
   (when-let [ks (load-key-store keystore-filename keystore-password)]
     (-> ks (.getCertificate cert-alias) .getEncoded Base64/encodeBase64 (String. "UTF-8"))))
-
 
 ;; https://www.purdue.edu/apps/account/docs/Shibboleth/Shibboleth_information.jsp
 ;;  Or

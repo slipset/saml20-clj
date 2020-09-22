@@ -27,12 +27,12 @@ commands:
       - attach_workspace:
           at: /home/circleci/
 
-  restore-be-deps-cache:
+  restore-deps-cache:
     steps:
       - restore_cache:
           keys:
-            - be-deps-{{ checksum "project.clj" }}
-            - be-deps-
+            - deps-{{ checksum "project.clj" }}
+            - deps-
 
 jobs:
 
@@ -54,14 +54,14 @@ jobs:
           paths:
             - metabase/saml20-clj
 
-  be-deps:
+  deps:
     executor: default
     steps:
       - attach-workspace
-      - restore-be-deps-cache
+      - restore-deps-cache
       - run: lein deps
       - save_cache:
-          key: be-deps-{{ checksum "project.clj" }}
+          key: deps-{{ checksum "project.clj" }}
           paths:
             - /home/circleci/.m2
 
@@ -75,7 +75,7 @@ jobs:
     executor: << parameters.e >>
     steps:
       - attach-workspace
-      - restore-be-deps-cache
+      - restore-deps-cache
       - run:
           command: lein << parameters.lein-command >>
           no_output_timeout: 5m
@@ -99,48 +99,59 @@ workflows:
     jobs:
       - checkout
 
-      - be-deps:
+      - deps:
           requires:
             - checkout
 
       - lein:
-          name: be-tests
+          name: tests
           requires:
-            - be-deps
+            - deps
           lein-command: test
 
       - lein:
-          name: be-tests-java-11
+          name: tests-java-11
           requires:
-            - be-deps
+            - deps
           e: java-11
           lein-command: test
 
       - lein:
-          name: be-linter-eastwood
+          name: eastwood
           requires:
-            - be-deps
+            - deps
           lein-command: eastwood
 
       - lein:
-          name: be-linter-namespace-decls
+          name: namespace-decls
           requires:
-            - be-deps
+            - deps
           lein-command: check-namespace-decls
 
       - lein:
-          name: be-linter-bikeshed
+          name: bikeshed
           requires:
-            - be-deps
+            - deps
           lein-command: bikeshed
+
+      - lein:
+          name: cloverage
+          requires:
+            - deps
+          lein-command: cloverage --codecov
+          after-steps:
+            - run:
+                name: Upload code coverage to codecov.io
+                command: bash <(curl -s https://codecov.io/bash)
 
       - deploy:
           requires:
-            - be-linter-bikeshed
-            - be-linter-eastwood
-            - be-linter-namespace-decls
-            - be-tests
-            - be-tests-java-11
+            - bikeshed
+            - eastwood
+            - namespace-decls
+            - tests
+            - tests-java-11
+            - cloverage
           filters:
             branches:
               only: master
