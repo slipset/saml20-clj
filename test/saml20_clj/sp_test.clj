@@ -27,3 +27,13 @@
              {:count  (count @mutable)
               :get-1? (some? (get @mutable 1))
               :get-2? (some? (get @mutable 2))})))))
+
+(deftest get-idp-redirect-test
+  (is (= {:status 302
+          :headers {"Location" (str "https://idp.example.com"
+                                    "?SAMLRequest=C3b09VEIcg0MdQ0OUXD3dw1W8HANcgUA"
+                                    "&RelayState=http%3A%2F%2Fexample.com%2Fredirect%2Fback%2Fto%2Fhere")}
+          :body ""}
+         (sp/get-idp-redirect "https://idp.example.com"
+                              "SAML REQUEST GOES HERE"
+                              "http://example.com/redirect/back/to/here"))))

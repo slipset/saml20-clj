@@ -3,6 +3,7 @@
 [![Downloads](https://versions.deps.co/metabase/saml20-clj/downloads.svg)](https://versions.deps.co/metabase/saml20-clj)
 [![Dependencies Status](https://versions.deps.co/metabase/saml20-clj/status.svg)](https://versions.deps.co/metabase/saml20-clj)
 [![Circle CI](https://circleci.com/gh/metabase/saml20-clj.svg?style=svg)](https://circleci.com/gh/metabase/saml20-clj)
+[![codecov](https://codecov.io/gh/metabase/saml20-clj/branch/master/graph/badge.svg)](https://codecov.io/gh/metabase/saml20-clj)
 [![License](https://img.shields.io/badge/license-Eclipse%20Public%20License-blue.svg)](https://raw.githubusercontent.com/metabase/saml20-clj/master/LICENSE)
 [![cljdoc badge](https://cljdoc.org/badge/metabase/saml20-clj)](https://cljdoc.org/d/metabase/saml20-clj/CURRENT)
 
