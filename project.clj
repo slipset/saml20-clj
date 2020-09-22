@@ -1,4 +1,4 @@
-(defproject metabase/saml20-clj "1.1.0-SNAPSHOT"
+(defproject metabase/saml20-clj "2.0.0-SNAPSHOT"
   :description "Improved SAML 2.0 library for SSO."
   :url "https://github.com/metabase/saml20-clj"
   :min-lein-version "2.5.0"
@@ -21,12 +21,11 @@
    [org.clojure/data.zip "1.0.0"]
    [org.clojure/tools.logging "1.1.0"]
    [clj-time "0.15.2"]
-   [compojure "1.6.2"]
+   [commons-io/commons-io "2.8.0"]
    [hiccup "1.0.5"]
    [org.apache.santuario/xmlsec "2.2.0"]
    [org.opensaml/opensaml "2.6.4"]
-   [org.vlacs/helmsman "1.0.0"]
-   [ring "1.8.1"]]
+   [ring/ring-codec "1.1.2"]]           ; for the url-encode codec
 
   :profiles
   {:dev
@@ -70,7 +69,7 @@
    ;; Using Cam's fork of Cloverage until 1.2.1 of the main repo is out. Once that's released we can switch back.
    {:dependencies [[camsaul/cloverage "1.2.1.1"]]
     :plugins      [[camsaul/lein-cloverage  "1.2.1.1"]]
-    :cloverage    {:fail-threshold 16}}}
+    :cloverage    {:fail-threshold 20}}}
 
   :deploy-repositories
   [["clojars"
