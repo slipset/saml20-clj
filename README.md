@@ -101,6 +101,6 @@ Tested with Microsoft Active Directory Federation Server (ADFS) as the identity 
 
 * Copyright © 2013 VLACS <jdoane@vlacs.org>
 * Copyright © 2017 Kenji Nakamura <kenji@signifier.jp>
-* Copyright © 2019 [Metabase, Inc.](https://metabase.com)
+* Copyright © 2019-2020 [Metabase, Inc.](https://metabase.com)
 
 Distributed under the Eclipse Public License, the same as Clojure.
