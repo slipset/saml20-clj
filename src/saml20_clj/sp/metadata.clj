@@ -1,15 +1,37 @@
 (ns saml20-clj.sp.metadata
-  (:require [clojure.string :as str]
+  (:require [clojure.spec.alpha :as s]
+            [clojure.string :as str]
             [saml20-clj
              [coerce :as coerce]
-             [encode-decode :as encode]]))
+             [encode-decode :as encode]
+             [specs :as specs]])
+  (:import javax.security.cert.X509Certificate))
 
+(defn url? [s]
+  (string? s))
+
+(s/def ::app-name string?)
+(s/def ::slo-url specs/url?)
+(s/def ::sp-cert (partial instance? X509Certificate))
+(s/def ::requests-signed boolean?)
+(s/def ::want-assertions-signed boolean?)
+
+(s/def ::metadata (s/keys :req-un [::specs/acs-url
+                                   ::app-name
+                                   ::sp-cert]
+                          :opt-un [::requests-signed
+                                   ::slo-url
+                                   ::want-assertions-signed]))
+
+(s/fdef metadata
+  :args (s/cat :args ::metadata)
+  :ret string?)
 (defn metadata [{:keys [app-name acs-url slo-url sp-cert
                         requests-signed
                         want-assertions-signed]
                  :or {want-assertions-signed true
                       requests-signed true}}]
-  (let [encoded-cert (some-> ^java.security.cert.X509Certificate sp-cert
+  (let [encoded-cert (some-> ^X509Certificate sp-cert
                              .getEncoded
                              encode/encode-base64
                              encode/bytes->str)]

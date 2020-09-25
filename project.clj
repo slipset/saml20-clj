@@ -33,7 +33,8 @@
    [potemkin "0.4.5"]
    [pretty "1.0.4"]
    [ring/ring-codec "1.1.2"]
-   [clojure.java-time "0.3.2"]]
+   [clojure.java-time "0.3.2"]
+   [org.clojure/spec.alpha "0.2.187"]]
 
   :profiles
   {:dev
