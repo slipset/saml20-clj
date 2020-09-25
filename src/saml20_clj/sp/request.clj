@@ -60,8 +60,10 @@
                                 ;; If present, record the request
                                 state-manager
                                 ;; If present, we can sign the request
-                                private-key]
-                         :or   {request-id (str (java.util.UUID/randomUUID))}}]
+                                private-key
+                                instant]
+                         :or   {request-id (str (java.util.UUID/randomUUID))
+                                instant (t/instant)}}]
   (assert acs-url)
   (assert idp-url)
   (assert sp-name)
@@ -70,7 +72,7 @@
                                     {:xmlns:samlp                 "urn:oasis:names:tc:SAML:2.0:protocol"
                                      :ID                          request-id
                                      :Version                     "2.0"
-                                     :IssueInstant                (format-instant (t/instant))
+                                     :IssueInstant                (format-instant instant)
                                      :ProtocolBinding             "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
                                      :ProviderName                sp-name
                                      :IsPassive                   false
