@@ -77,15 +77,12 @@ Basic usage for requests to the IdP looks like:
                                 "http://sp.example.com/please/redirect/me/to/here"))
 ```
 
-The `:credential` can be used to sign the request to the IdP, and attach any public key information (if present). It will
-happily accept several formats, depending on the use-case:
+The `:credential` can be used to sign the request to the IdP, and attach any public key information (if present). It will happily accept several formats, depending on the use-case:
   - `private-key`: A PEM formatted string
   - `[public-cert private-key]`: A tuple containing an X509 Certificate and a private key, both in PEM format
-  
-The `:credential` can also reference a keystore using a map with the following parameters:
   - `{:filepath "/path/to/keystore"
       :password "keystore-password"
-      :alias    "key-alias"}`
+      :alias    "key-alias"}`: A map describing a keystore and alias used.
 
 ### Responses
 
