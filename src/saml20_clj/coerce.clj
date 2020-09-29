@@ -45,21 +45,21 @@
 
 (defprotocol CoerceToPrivateKey
   (->PrivateKey
-    ^PrivateKey [this]
-    ^PrivateKey [this ^String algorithm]
+   [this]
+   [this ^String algorithm]
     "Coerce something such as a base-64-encoded string or byte array to a `PrivateKey`. This isn't used directly by
  OpenSAML -- the key must be passed as part of an OpenSAML `Credential`. See `->Credential`."))
 
 (defprotocol CoerceToX509Certificate
-  (->X509Certificate ^X509Certificate [this]
+  (^java.security.cert.X509Certificate ->X509Certificate [this]
     "Coerce something such as a base-64-encoded string or byte array to a `java.security.cert.X509Certificate`. This
  class isn't used directly by OpenSAML; instead, certificate must be coerced to an OpenSAML `Credential`. See
 `->Credential`."))
 
 (defprotocol CoerceToCredential
   (->Credential
-    ^Credential [this]
-    ^Credential [public-key private-key]
+    [this]
+    [public-key private-key]
     "Coerce something such as a byte array or base-64-encoded String to an OpenSAML `Credential`. Typically, you'd use
   the credential with just the public key for the IdP's credentials, for encrypting requests (in combination with SP
   credentails) or verifying signature(s) in the response. A credential with both public and private keys would
@@ -67,16 +67,16 @@
   for decrypting encrypted assertions in the response."))
 
 (defprotocol CoerceToElement
-  (->Element ^Element [this]))
+  (^org.w3c.dom.Element ->Element [this]))
 
 (defprotocol CoerceToSAMLObject
-  (->SAMLObject ^SignableSAMLObject [this]))
+  (^org.opensaml.saml.common.SignableSAMLObject ->SAMLObject [this]))
 
 (defprotocol CoerceToResponse
-  (->Response ^Response [this]))
+  (^org.opensaml.saml.saml2.core.Response ->Response [this]))
 
 (defprotocol SerializeXMLString
-  (->xml-string ^String [this]))
+  (^String ->xml-string [this]))
 
 
 ;;; ------------------------------------------------------ Impl ------------------------------------------------------
@@ -212,7 +212,7 @@
        (when-let [keystore (keystore m)]
          (KeyStoreX509CredentialAdapter. keystore key-alias (.toCharArray password)))))
     ([m private-key]
-     (let [credential (->Credential m)
+     (let [credential ^Credential (->Credential m)
            public-key (.getPublicKey credential)]
        (->Credential public-key private-key))))
 
