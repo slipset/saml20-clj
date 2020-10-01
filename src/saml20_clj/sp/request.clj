@@ -33,7 +33,7 @@
                                 ;; If present, we can sign the request
                                 credential
                                 instant]
-                         :or   {request-id (str (java.util.UUID/randomUUID))
+                         :or   {request-id (str "id" (java.util.UUID/randomUUID))
                                 instant (t/instant)}}]
   (assert (non-blank-string? acs-url) "acs-url is required")
   (assert (non-blank-string? idp-url) "idp-url is required")
